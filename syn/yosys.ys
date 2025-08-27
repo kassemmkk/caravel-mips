@@ -1,0 +1,28 @@
+# Yosys synthesis script for user_project_wb_wrapper
+# Read design files
+read_verilog -sv verilog/rtl/user_project_wb_wrapper.v
+read_verilog -sv verilog/rtl/user_project.v
+read_verilog -sv verilog/rtl/wb_interconnect.v
+read_verilog -sv verilog/rtl/periph/i3c_controller.v
+read_verilog -sv verilog/rtl/periph/CF_SPI_WB.v
+read_verilog -sv verilog/rtl/periph/CF_SPI.v
+read_verilog -sv verilog/rtl/periph/spi_master.v
+read_verilog -sv verilog/rtl/periph/EF_GPIO8_WB.v
+read_verilog -sv verilog/rtl/periph/EF_GPIO8.v
+read_verilog -sv verilog/rtl/periph/cf_util_lib.v
+read_verilog -sv verilog/rtl/periph/aucohl_lib.v
+
+# Set top module
+hierarchy -top user_project_wb_wrapper
+
+# Basic synthesis
+synth -top user_project_wb_wrapper
+
+# Check for latches
+check -noinit
+
+# Report statistics
+stat
+
+# Write netlist
+write_verilog syn/user_project_wb_wrapper_synth.v
